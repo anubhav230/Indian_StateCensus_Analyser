@@ -12,6 +12,12 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 public class StateCensusAnalyser {
 
+    /**
+     *
+     * @param csvFilePath
+     * @return
+     * @throws CensusAnalyserException
+     */
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
         try {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
