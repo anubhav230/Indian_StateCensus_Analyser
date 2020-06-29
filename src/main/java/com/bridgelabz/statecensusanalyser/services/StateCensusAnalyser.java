@@ -50,8 +50,8 @@ public class StateCensusAnalyser {
      * @throws CensusAnalyserException
      */
     public void getFileExtension(String filePath) throws CensusAnalyserException {
-        boolean result = filePath.endsWith("csv");
-        if (!result) {
+        boolean result = filePath.endsWith(".csv");
+        if (result) {
             throw new CensusAnalyserException("wrong file path",
                     CensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
         }
