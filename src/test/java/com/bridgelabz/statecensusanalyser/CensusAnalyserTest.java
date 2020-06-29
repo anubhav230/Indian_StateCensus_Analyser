@@ -18,7 +18,6 @@ public class CensusAnalyserTest {
             Assert.assertEquals(29,numOfRecords);
         } catch (CensusAnalyserException e) { }
     }
-
     @Test
     public void givenIndiaCensusData_WithWrongFile_ShouldThrowException() {
         try {
