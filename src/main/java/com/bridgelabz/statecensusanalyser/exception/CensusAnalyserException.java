@@ -3,7 +3,7 @@ package com.bridgelabz.statecensusanalyser.exception;
 public class CensusAnalyserException extends Exception {
 
     public enum ExceptionType {
-        CENSUS_FILE_PROBLEM
+        CENSUS_FILE_PROBLEM, WRONG_FILE_TYPE
     }
 
     public ExceptionType type;
@@ -13,8 +13,8 @@ public class CensusAnalyserException extends Exception {
         this.type = type;
     }
 
-    public CensusAnalyserException(String message, ExceptionType type, Throwable cause) {
-        super(message, cause);
-        this.type = type;
-    }
+//    public CensusAnalyserException(String message, ExceptionType type, Throwable cause) {
+//        super(message, cause);
+//        this.type = type;
+//    }
 }
