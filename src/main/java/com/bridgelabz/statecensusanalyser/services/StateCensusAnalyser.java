@@ -35,9 +35,9 @@ public class StateCensusAnalyser {
                 IndiaCensusCSV censusData = censusCSVIterator.next();
             }
             return namOfEateries;
-        } catch (FileNotFoundException e) {
-            throw new CensusAnalyserException(e.getMessage(),
-                    CensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
+        }catch (RuntimeException e) {
+                throw new CensusAnalyserException("wrong delimiter",
+                        CensusAnalyserException.ExceptionType.INCORRECT_DELIMITER);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -56,4 +56,6 @@ public class StateCensusAnalyser {
                     CensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
         }
     }
+
+
 }
