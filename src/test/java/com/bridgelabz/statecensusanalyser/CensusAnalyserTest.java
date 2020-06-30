@@ -33,7 +33,7 @@ public class CensusAnalyserTest {
     public void givenIndiaCensusData_WithWrongType_ShouldThrowException() {
         String WRONG_CSV_FILE_TYPE = "./src/test/resources/IndiaStateCensusData.txt";
         try {
-            stateCensusAnalyser.getFileExtension(WRONG_CSV_FILE_TYPE);
+            stateCensusAnalyser.loadIndiaCensusData(WRONG_CSV_FILE_TYPE);
         } catch (CensusAnalyserException e) {
             System.out.println(e.getMessage());
         }
@@ -89,7 +89,7 @@ public class CensusAnalyserTest {
     public void givenIndianCodeCSVFile_WithWrongType_ShouldThrowException() {
         String WRONG_CSV_FILE_TYPE = "./src/test/resources/IndiaStateCensusData.txt";
         try {
-            stateCensusAnalyser.getFileExtension(WRONG_CSV_FILE_TYPE);
+            stateCensusAnalyser.loadStateCode(WRONG_CSV_FILE_TYPE);
         } catch (CensusAnalyserException e) {
             System.out.println(e.getMessage());
         }

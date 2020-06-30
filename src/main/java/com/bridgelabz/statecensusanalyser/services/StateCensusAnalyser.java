@@ -23,9 +23,7 @@ public class StateCensusAnalyser {
         try {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
             Iterator<IndiaCensusCSV> censusCSVIterator = this.getCSVFileIterator(reader, IndiaCensusCSV.class);
-            Iterable<IndiaCensusCSV> csvIterable = () -> censusCSVIterator;
-            int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-            return numOfEntries;
+            return this.getCount(censusCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -38,17 +36,24 @@ public class StateCensusAnalyser {
         try {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
             Iterator<StateCSV> stateCSVIterator = this.getCSVFileIterator(reader, StateCSV.class);
-            Iterable<StateCSV> csvIterable = () -> stateCSVIterator;
-            int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-            return numOfEntries;
+            return this.getCount(stateCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
 
-
-
+    /**
+     *
+     * @param integer
+     * @param <E>
+     * @return
+     */
+    private <E>int getCount(Iterator<E> integer){
+        Iterable<E> csvIterable = () -> integer;
+        int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+        return numOfEntries;
+    }
 
 
     private <E> Iterator<E> getCSVFileIterator(Reader reader, Class csvClass) throws CensusAnalyserException {
@@ -67,19 +72,5 @@ public class StateCensusAnalyser {
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
 
-    }
-
-
-    /**
-     *
-     * @param filePath
-     * @throws CensusAnalyserException
-     */
-    public void getFileExtension(String filePath) throws CensusAnalyserException {
-        boolean result = filePath.endsWith(".csv");
-        if (!result) {
-            throw new CensusAnalyserException("wrong file Type",
-                    CensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
-        }
     }
 }
