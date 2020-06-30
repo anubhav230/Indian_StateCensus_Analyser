@@ -84,4 +84,15 @@ public class CensusAnalyserTest {
         }
     }
 
+
+    @Test
+    public void givenIndianCodeCSVFile_WithWrongType_ShouldThrowException() {
+        String WRONG_CSV_FILE_TYPE = "./src/test/resources/IndiaStateCensusData.txt";
+        try {
+            stateCodeAnalyser.getFileExtension(WRONG_CSV_FILE_TYPE);
+        }catch (CensusAnalyserException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
