@@ -2,14 +2,16 @@ package com.bridgelabz.statecensusanalyser;
 
 import com.bridgelabz.statecensusanalyser.exception.CensusAnalyserException;
 import com.bridgelabz.statecensusanalyser.services.StateCensusAnalyser;
+import com.bridgelabz.statecensusanalyser.services.StateCodeAnalyser;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class CensusAnalyserTest {
 
     StateCensusAnalyser stateCensusAnalyser;
+    StateCodeAnalyser stateCodeAnalyser = new StateCodeAnalyser();
     @Test
-    public void givenIndianCensusCSVFileReturnsCorrectRecords() {
+    public void givenIndianCensusCSVFile_ReturnsCorrectRecords() {
         String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
         try {
             stateCensusAnalyser = new StateCensusAnalyser();
@@ -62,4 +64,13 @@ public class CensusAnalyserTest {
         }
     }
 
+    //UC2
+    @Test
+    public void givenIndianCodeCSVFile_ReturnsCorrectRecords() {
+        String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode.csv";
+        try {
+            int numOfRecords = stateCodeAnalyser.loadIndiaStateData(INDIA_CENSUS_CSV_FILE_PATH);
+            Assert.assertEquals(37,numOfRecords);
+        } catch (CensusAnalyserException ignored) { }
+    }
 }
