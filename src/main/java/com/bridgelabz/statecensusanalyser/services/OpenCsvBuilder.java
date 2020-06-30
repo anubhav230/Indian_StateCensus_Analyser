@@ -15,7 +15,7 @@ public class OpenCsvBuilder<E> implements ICSVBuilder {
      * @return
      * @throws CensusAnalyserException
      */
-    public Iterator<E> getCSVFileIterator(Reader reader, Class csvClass) throws CensusAnalyserException {
+    public Iterator<E> getCSVFileIterator(Reader reader, Class csvClass) throws CSVBuilderException {
         try {
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
             csvToBeanBuilder.withType(csvClass);
@@ -23,11 +23,11 @@ public class OpenCsvBuilder<E> implements ICSVBuilder {
             CsvToBean<E> csvToBean = csvToBeanBuilder.build();
             return csvToBean.iterator();
         } catch (IllegalStateException e) {
-            throw new CensusAnalyserException(e.getMessage(),
-                    CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+            throw new CSVBuilderException(e.getMessage(),
+                    CSVBuilderException.ExceptionType.UNABLE_TO_PARSE);
         } catch (RuntimeException e) {
-            throw new CensusAnalyserException("there is improper header",
-                    CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+            throw new CSVBuilderException("there is improper header",
+                    CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
 
     }
