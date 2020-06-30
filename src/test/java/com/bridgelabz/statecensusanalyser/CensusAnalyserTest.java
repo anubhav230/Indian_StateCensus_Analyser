@@ -73,4 +73,15 @@ public class CensusAnalyserTest {
             Assert.assertEquals(37,numOfRecords);
         } catch (CensusAnalyserException ignored) { }
     }
+
+    @Test
+    public void givenIndianCodeCSVFile_WithWrongFile_ShouldThrowException() {
+        String WRONG_CSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
+        try {
+            stateCodeAnalyser.loadIndiaStateData(WRONG_CSV_FILE_PATH);
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM,e.type);
+        }
+    }
+
 }
