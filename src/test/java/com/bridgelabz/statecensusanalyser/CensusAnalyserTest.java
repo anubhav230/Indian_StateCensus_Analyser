@@ -95,4 +95,24 @@ public class CensusAnalyserTest {
         }
     }
 
+
+    @Test
+    public void givenIndianCodeCSVFile_WithWrongDelimiter_ShouldThrowException() {
+        String WRONG_CSV_FILE_WRONG_DELIMITER = "./src/test/resources/IndianStateCensusData2.csv";
+        try {
+            stateCodeAnalyser.loadIndiaStateData(WRONG_CSV_FILE_WRONG_DELIMITER);
+        } catch (CensusAnalyserException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void givenIndianCodeCSVFile_WithWrongHeader_ShouldThrowException() {
+        String WRONG_HEADER_CSV_FILE_PATH = "./src/test/resources/IndianStateCensusData3.csv";
+        try {
+            stateCodeAnalyser.loadIndiaStateData(WRONG_HEADER_CSV_FILE_PATH);
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_DELIMITER,e.type);
+        }
+    }
 }
