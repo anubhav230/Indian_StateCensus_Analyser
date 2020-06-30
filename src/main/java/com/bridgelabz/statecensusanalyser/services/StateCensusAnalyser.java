@@ -2,16 +2,15 @@ package com.bridgelabz.statecensusanalyser.services;
 
 import com.bridgelabz.statecensusanalyser.exception.CensusAnalyserException;
 import com.bridgelabz.statecensusanalyser.models.IndiaCensusCSV;
+import com.bridgelabz.statecensusanalyser.models.StateCSV;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.stream.StreamSupport;
 
 public class StateCensusAnalyser {
 
@@ -23,26 +22,53 @@ public class StateCensusAnalyser {
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
         try {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
-            CsvToBeanBuilder<IndiaCensusCSV> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
-            csvToBeanBuilder.withType(IndiaCensusCSV.class);
-            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-            CsvToBean<IndiaCensusCSV> csvToBean = csvToBeanBuilder.build();
-            Iterator<IndiaCensusCSV> censusCSVIterator = csvToBean.iterator();
-            ;
-            int namOfEateries = 0;
-            while (censusCSVIterator.hasNext()) {
-                namOfEateries++;
-                IndiaCensusCSV censusData = censusCSVIterator.next();
-            }
-            return namOfEateries;
-        }catch (RuntimeException e) {
-                throw new CensusAnalyserException("wrong delimiter",
-                        CensusAnalyserException.ExceptionType.INCORRECT_DELIMITER);
+            Iterator<IndiaCensusCSV> censusCSVIterator = this.getCSVFileIterator(reader, IndiaCensusCSV.class);
+            Iterable<IndiaCensusCSV> csvIterable = () -> censusCSVIterator;
+            int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+            return numOfEntries;
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
+
+
+
+    public int loadStateCode(String csvFilePath) throws CensusAnalyserException {
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
+            Iterator<StateCSV> stateCSVIterator = this.getCSVFileIterator(reader, StateCSV.class);
+            Iterable<StateCSV> csvIterable = () -> stateCSVIterator;
+            int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+            return numOfEntries;
+        } catch (IOException e) {
+            throw new CensusAnalyserException(e.getMessage(),
+                    CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
+
+
+
+
+
+    private <E> Iterator<E> getCSVFileIterator(Reader reader, Class csvClass) throws CensusAnalyserException {
+        try{
+            CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
+            csvToBeanBuilder.withType(csvClass);
+            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
+            CsvToBean<E> csvToBean = csvToBeanBuilder.build();
+            return csvToBean.iterator();
+        }
+        catch (IllegalStateException e) {
+            throw new CensusAnalyserException(e.getMessage(),
+                    CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+        }catch (RuntimeException e) {
+            throw new CensusAnalyserException("there is improper header",
+                    CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+
+    }
+
 
     /**
      *
@@ -52,10 +78,8 @@ public class StateCensusAnalyser {
     public void getFileExtension(String filePath) throws CensusAnalyserException {
         boolean result = filePath.endsWith(".csv");
         if (!result) {
-            throw new CensusAnalyserException("wrong file path",
+            throw new CensusAnalyserException("wrong file Type",
                     CensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
         }
     }
-
-
 }
