@@ -4,7 +4,7 @@ import com.opencsv.bean.CsvBindByName;
 
 public class StateCSV {
 
-    @CsvBindByName(column = "StateName", required = true)
+    @CsvBindByName(column = "State Name", required = true)
     public String StateName;
 
 
