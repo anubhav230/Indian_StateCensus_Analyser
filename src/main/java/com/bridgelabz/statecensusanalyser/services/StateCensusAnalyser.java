@@ -6,7 +6,6 @@ import com.bridgelabz.statecensusanalyser.models.StateCSV;
 import com.csvbuilder.CSVBuilderException;
 import com.csvbuilder.CSVBuilderFactory;
 import com.csvbuilder.ICSVBuilder;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -58,7 +57,5 @@ public class StateCensusAnalyser {
         int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
         return numOfEntries;
     }
-
-
 
 }

@@ -35,6 +35,7 @@ public class CensusAnalyserTest {
         try {
             stateCensusAnalyser.loadIndiaCensusData(WRONG_CSV_FILE_TYPE);
         } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
             System.out.println(e.getMessage());
         }
     }
