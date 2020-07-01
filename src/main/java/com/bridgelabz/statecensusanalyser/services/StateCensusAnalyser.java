@@ -55,11 +55,6 @@ public class StateCensusAnalyser {
         }
     }
 
-    /**
-     * @param integer
-     * @param <E>
-     * @return
-     */
     private <E> int getCount(Iterator<E> integer) {
         Iterable<E> csvIterable = () -> integer;
         int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
@@ -74,11 +69,19 @@ public class StateCensusAnalyser {
         this.sort(censusComparator);
         String sortedStateCensusJson = new Gson().toJson(censusCSVList);
         return sortedStateCensusJson;
+    }
 
+    public String getPopulationWiseSortedCensusData(String INDIA_CENSUS_CSV_FILE_PATH) throws CensusAnalyserException {
+        if (censusCSVList == null || censusCSVList.size() == 0) {
+            throw new CensusAnalyserException("No data",CensusAnalyserException.ExceptionType.NO_DATA);
+        }
+        Comparator<IndiaCensusCSV> censusComparator = Comparator.comparing(census -> census.population);
+        this.sort(censusComparator);
+        String sortedStateCensusJson = new Gson().toJson(censusCSVList);
+        return sortedStateCensusJson;
     }
 
     private void sort(Comparator<IndiaCensusCSV> censusComparator) {
-
         for (int i = 0; i < censusCSVList.size() - 1; i++) {
             for (int j = 0; j < censusCSVList.size() - i - 1; j++) {
                 IndiaCensusCSV census1 = censusCSVList.get(j);
@@ -89,6 +92,5 @@ public class StateCensusAnalyser {
                 }
             }
         }
-
     }
 }

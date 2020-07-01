@@ -135,4 +135,19 @@ public class CensusAnalyserTest {
 
         }
     }
+    //uc5
+    @Test
+    public void giveIndianCensusData_WhenSortOnPopulation_ShouldReturnSortedResult() {
+        try {
+            String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
+            stateCensusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortCensusData = stateCensusAnalyser.getPopulationWiseSortedCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(sortCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals(199812341, indiaCensusCSV[indiaCensusCSV.length -1].population);
+        } catch (CensusAnalyserException e) {
+
+        }
+    }
+
+
 }
