@@ -87,7 +87,7 @@ public class StateCensusAnalyser {
 
 
 
-    public String getPopulationWiseSortedCensusData(String INDIA_CENSUS_CSV_FILE_PATH) throws CensusAnalyserException {
+    public String getPopulationWiseSortedCensusData() throws CensusAnalyserException {
         if (censusCSVList == null || censusCSVList.size() == 0) {
             throw new CensusAnalyserException("No data",CensusAnalyserException.ExceptionType.NO_DATA);
         }
@@ -97,7 +97,7 @@ public class StateCensusAnalyser {
         return sortedStateCensusJson;
     }
 
-    public String getPopulatedDensityWiseSortedCensusData(String INDIA_CENSUS_CSV_FILE_PATH) throws CensusAnalyserException {
+    public String getPopulatedDensityWiseSortedCensusData() throws CensusAnalyserException {
         if (censusCSVList == null || censusCSVList.size() == 0) {
             throw new CensusAnalyserException("No data",CensusAnalyserException.ExceptionType.NO_DATA);
         }
@@ -113,6 +113,23 @@ public class StateCensusAnalyser {
         return sortedStateCensusJson;
     }
 
+    public String getLargestStateByArea() throws CensusAnalyserException {
+        if (censusCSVList == null || censusCSVList.size() == 0) {
+            throw new CensusAnalyserException("No data",CensusAnalyserException.ExceptionType.NO_DATA);
+        }
+        Comparator<IndiaCensusCSV> censusComparator = Comparator.comparing(census -> census.areaInSqKm);
+        this.sort(censusComparator);
+        String sortedStateCensusJson = new Gson().toJson(censusCSVList);
+        try (Writer writer = new FileWriter("./src/test/resources/IndiaLargestStateByArea.json")) {
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(censusCSVList, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sortedStateCensusJson;
+    }
+
+
     private void sort(Comparator<IndiaCensusCSV> censusComparator) {
         for (int i = 0; i < censusCSVList.size() - 1; i++) {
             for (int j = 0; j < censusCSVList.size() - i - 1; j++) {
@@ -126,9 +143,6 @@ public class StateCensusAnalyser {
         }
     }
 
-//    private void sortStateCode() {
-//        stateCSVList.sort(Comparator.comparing(StateCSV::StateCode));
-//    }
     private void sortStateCode(Comparator<StateCSV> stateCode) {
         for (int i = 0; i < stateCSVList.size() - 1; i++) {
             for (int j = 0; j < stateCSVList.size() - i - 1; j++) {

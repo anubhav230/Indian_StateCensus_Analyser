@@ -157,7 +157,7 @@ public class CensusAnalyserTest {
         try {
             String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
             stateCensusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
-            String sortCensusData = stateCensusAnalyser.getPopulationWiseSortedCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortCensusData = stateCensusAnalyser.getPopulationWiseSortedCensusData();
             IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(sortCensusData, IndiaCensusCSV[].class);
             Assert.assertEquals(199812341, indiaCensusCSV[indiaCensusCSV.length -1].population);
         } catch (CensusAnalyserException e) {
@@ -171,11 +171,27 @@ public class CensusAnalyserTest {
         try {
             String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
             stateCensusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
-            String sortCensusData = stateCensusAnalyser.getPopulatedDensityWiseSortedCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortCensusData = stateCensusAnalyser.getPopulatedDensityWiseSortedCensusData();
             IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(sortCensusData, IndiaCensusCSV[].class);
             Assert.assertEquals(1102, indiaCensusCSV[indiaCensusCSV.length -1].densityPerSqKm);
         } catch (CensusAnalyserException e) {
 
         }
     }
+
+    //uc7
+    @Test
+    public void giveIndianCensusData_WhenAreaInSqkb_ShouldReturnSortedResult() {
+        try {
+            String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
+            stateCensusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortCensusData = stateCensusAnalyser.getLargestStateByArea();
+            IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(sortCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals(342239, indiaCensusCSV[indiaCensusCSV.length -1].areaInSqKm);
+        } catch (CensusAnalyserException e) {
+
+        }
+    }
+
+
 }
