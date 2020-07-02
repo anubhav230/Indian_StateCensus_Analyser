@@ -127,9 +127,7 @@ public class CensusAnalyserTest {
             String sortCensusData = stateCensusAnalyser.getStateWiseSortedCensusData();
             IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(sortCensusData, IndiaCensusCSV[].class);
             Assert.assertEquals("Andhra Pradesh", indiaCensusCSV[0].state);
-        } catch (CensusAnalyserException e) {
-
-        }
+        } catch (CensusAnalyserException e) { }
     }
 
     //4
@@ -155,9 +153,7 @@ public class CensusAnalyserTest {
             String sortCensusData = stateCensusAnalyser.getPopulationWiseSortedCensusData();
             IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(sortCensusData, IndiaCensusCSV[].class);
             Assert.assertEquals(199812341, indiaCensusCSV[indiaCensusCSV.length -1].population);
-        } catch (CensusAnalyserException e) {
-
-        }
+        } catch (CensusAnalyserException e) { }
     }
 
     //6
