@@ -2,6 +2,7 @@ package com.bridgelabz.statecensusanalyser;
 
 import com.bridgelabz.statecensusanalyser.exception.CensusAnalyserException;
 import com.bridgelabz.statecensusanalyser.models.IndiaCensusCSV;
+import com.bridgelabz.statecensusanalyser.models.StateCSV;
 import com.bridgelabz.statecensusanalyser.services.StateCensusAnalyser;
 import com.google.gson.Gson;
 import org.junit.Assert;
@@ -128,13 +129,28 @@ public class CensusAnalyserTest {
         try {
             String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
             stateCensusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
-            String sortCensusData = stateCensusAnalyser.getStateWiseSortedCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortCensusData = stateCensusAnalyser.getStateWiseSortedCensusData();
             IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(sortCensusData, IndiaCensusCSV[].class);
             Assert.assertEquals("Andhra Pradesh", indiaCensusCSV[0].state);
         } catch (CensusAnalyserException e) {
 
         }
     }
+
+    //uc4
+    @Test
+    public void giveIndianStateData_WhenSortStateCode_ShouldReturnSortedResult() {
+        try {
+            String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/StateCode.csv";
+            stateCensusAnalyser.loadStateCode(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortStateData = stateCensusAnalyser.getStateCodeWiseSortedStateCode();
+            StateCSV[] StateCSV = new Gson().fromJson(sortStateData, StateCSV[].class);
+            Assert.assertEquals("AD", StateCSV[0].StateCode);
+        } catch (CensusAnalyserException e) {
+
+        }
+    }
+
     //uc5
     @Test
     public void giveIndianCensusData_WhenSortOnPopulation_ShouldReturnSortedResult() {
@@ -148,6 +164,4 @@ public class CensusAnalyserTest {
 
         }
     }
-
-
 }
