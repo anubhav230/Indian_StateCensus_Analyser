@@ -54,7 +54,6 @@ public class CensusAnalyserTest {
         }
     }
 
-
     @Test
     public void givenIndiaCensusData_WithWrongHeader_ShouldThrowException() {
         String WRONG_CSV_FILE_PATH = "./src/test/resources/IndianStateCensusData3.csv";
@@ -65,7 +64,6 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
     }
-
 
     //UC2
     @Test
@@ -89,7 +87,6 @@ public class CensusAnalyserTest {
         }
     }
 
-
     @Test
     public void givenIndianCodeCSVFile_WithWrongType_ShouldThrowException() {
         String WRONG_CSV_FILE_TYPE = "./src/test/resources/IndiaStateCensusData.txt";
@@ -100,7 +97,6 @@ public class CensusAnalyserTest {
         }
     }
 
-
     @Test
     public void givenIndianCodeCSVFile_WithWrongDelimiter_ShouldThrowException() {
         String WRONG_CSV_FILE_WRONG_DELIMITER = "./src/test/resources/IndianStateCensusData2.csv";
@@ -110,7 +106,6 @@ public class CensusAnalyserTest {
             System.out.println(e.getMessage());
         }
     }
-
 
     @Test
     public void givenIndianCodeCSVFile_WithWrongHeader_ShouldThrowException() {
@@ -137,7 +132,7 @@ public class CensusAnalyserTest {
         }
     }
 
-    //uc4
+    //4
     @Test
     public void giveIndianStateData_WhenSortStateCode_ShouldReturnSortedResult() {
         try {
@@ -151,7 +146,7 @@ public class CensusAnalyserTest {
         }
     }
 
-    //uc5
+    //5
     @Test
     public void giveIndianCensusData_WhenSortOnPopulation_ShouldReturnSortedResult() {
         try {
@@ -165,7 +160,7 @@ public class CensusAnalyserTest {
         }
     }
 
-    //uc6
+    //6
     @Test
     public void giveIndianCensusData_WhenSortOnPopulatedDensity_ShouldReturnSortedResult() {
         try {
@@ -179,7 +174,7 @@ public class CensusAnalyserTest {
         }
     }
 
-    //uc7
+    //7
     @Test
     public void giveIndianCensusData_WhenAreaInSqkb_ShouldReturnSortedResult() {
         try {
@@ -192,6 +187,4 @@ public class CensusAnalyserTest {
 
         }
     }
-
-
 }
