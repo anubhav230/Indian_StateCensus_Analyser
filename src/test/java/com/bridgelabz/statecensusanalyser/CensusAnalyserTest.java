@@ -30,6 +30,7 @@ public class CensusAnalyserTest {
             stateCensusAnalyser.loadIndiaCensusData(WRONG_CSV_FILE_PATH);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+            e.printStackTrace();
         }
     }
 
@@ -127,7 +128,9 @@ public class CensusAnalyserTest {
             String sortCensusData = stateCensusAnalyser.getStateWiseSortedCensusData();
             IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(sortCensusData, IndiaCensusCSV[].class);
             Assert.assertEquals("Andhra Pradesh", indiaCensusCSV[0].state);
-        } catch (CensusAnalyserException e) { }
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
     }
 
     //4
@@ -140,7 +143,7 @@ public class CensusAnalyserTest {
             StateCSV[] StateCSV = new Gson().fromJson(sortStateData, StateCSV[].class);
             Assert.assertEquals("AD", StateCSV[0].StateCode);
         } catch (CensusAnalyserException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -153,7 +156,9 @@ public class CensusAnalyserTest {
             String sortCensusData = stateCensusAnalyser.getPopulationWiseSortedCensusData();
             IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(sortCensusData, IndiaCensusCSV[].class);
             Assert.assertEquals(199812341, indiaCensusCSV[indiaCensusCSV.length -1].population);
-        } catch (CensusAnalyserException e) { }
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
     }
 
     //6
@@ -166,7 +171,7 @@ public class CensusAnalyserTest {
             IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(sortCensusData, IndiaCensusCSV[].class);
             Assert.assertEquals(1102, indiaCensusCSV[0].densityPerSqKm);
         } catch (CensusAnalyserException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -180,7 +185,7 @@ public class CensusAnalyserTest {
             IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(sortCensusData, IndiaCensusCSV[].class);
             Assert.assertEquals(342239, indiaCensusCSV[0].areaInSqKm);
         } catch (CensusAnalyserException e) {
-
+            e.printStackTrace();
         }
     }
 }
