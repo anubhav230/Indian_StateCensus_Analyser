@@ -188,4 +188,14 @@ public class CensusAnalyserTest {
             e.printStackTrace();
         }
     }
+
+    //us
+    @Test
+    public void givenUsCensusCSVFile_ReturnsCorrectRecords() {
+        String US_CENSUS_CSV_FILE_PATH = "./src/test/resources/US_STATE_CENSUS.csv";
+        try {
+            int numOfRecords = stateCensusAnalyser.loadUsData(US_CENSUS_CSV_FILE_PATH);
+            Assert.assertEquals(9, numOfRecords);
+        } catch (CensusAnalyserException e) { }
+    }
 }

@@ -5,7 +5,7 @@ public class CensusDAO {
     public String usState;
     public String waterArea;
     public String totalArea;
-    String stateId;
+    public String stateId;
     public int usPopulation;
     public String housingUnits;
     public int population;

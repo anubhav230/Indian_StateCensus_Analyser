@@ -1,8 +1,10 @@
 package com.bridgelabz.statecensusanalyser.services;
 
 import com.bridgelabz.statecensusanalyser.exception.CensusAnalyserException;
+import com.bridgelabz.statecensusanalyser.models.CensusDAO;
 import com.bridgelabz.statecensusanalyser.models.IndiaCensusCSV;
 import com.bridgelabz.statecensusanalyser.models.StateCSV;
+import com.bridgelabz.statecensusanalyser.models.UsCensusData;
 import com.csvbuilder.CSVBuilderException;
 import com.csvbuilder.CSVBuilderFactory;
 import com.csvbuilder.ICSVBuilder;
@@ -18,9 +20,10 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class StateCensusAnalyser {
-
+    List<CensusDAO> censusList = null;
     Collection<Object> records = null;
     Map<Object, Object> censusDAOMap = new HashMap<>();
+
 
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
@@ -54,10 +57,10 @@ public class StateCensusAnalyser {
         }
     }
 
-    public int loadUsCensusData(String csvFilePath) throws CensusAnalyserException {
+    public int loadUsData(String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            censusDAOMap = csvBuilder.getCSVFileHashMap(reader, StateCSV.class);
+            censusDAOMap = csvBuilder.getCSVFileHashMap(reader, UsCensusData.class);
             return censusDAOMap.size();
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
