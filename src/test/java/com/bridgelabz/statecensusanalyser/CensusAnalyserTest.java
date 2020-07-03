@@ -225,4 +225,18 @@ public class CensusAnalyserTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void giveUsCensusData_WhenSortMostPopulatedArea_ShouldReturnSortedResult() {
+        try {
+            String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/US_STATE_CENSUS.csv";
+            stateCensusAnalyser.loadUsData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortCensusData = stateCensusAnalyser.getPopulatedAreaWiseSortedUsCensusData();
+            UsCensusData[] usCensusData = new Gson().fromJson(sortCensusData, UsCensusData[].class);
+            Assert.assertEquals(104655.8, usCensusData[0].totalArea);
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

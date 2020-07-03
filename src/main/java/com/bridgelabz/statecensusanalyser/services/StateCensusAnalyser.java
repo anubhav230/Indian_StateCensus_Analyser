@@ -162,6 +162,23 @@ public class StateCensusAnalyser {
         return sortedStateCensusJson;
     }
 
+    public String getPopulatedAreaWiseSortedUsCensusData() throws CensusAnalyserException {
+        if (censusDAOMap == null || censusDAOMap.size() == 0) {
+            throw new CensusAnalyserException("No data", CensusAnalyserException.ExceptionType.NO_DATA);
+        }
+        Comparator<UsCensusData> censusComparator = Comparator.comparing(census -> census.totalArea);
+        this.sort(censusComparator, censusDAOMap);
+        records = censusDAOMap.values();
+        String sortedStateCensusJson = new Gson().toJson(records);
+        try (Writer writer = new FileWriter("./src/test/resources/UsStateCensusDataAreaWise.json")) {
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(censusDAOMap, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sortedStateCensusJson;
+    }
+
     private <E> void sort(Comparator censusComparator, Map<Object, Object> records) {
         for (int i = 0; i < records.size() - 1; i++) {
             for (int j = 0; j < records.size() - i - 1; j++) {
