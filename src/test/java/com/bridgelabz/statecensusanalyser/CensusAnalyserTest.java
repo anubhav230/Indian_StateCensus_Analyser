@@ -195,7 +195,7 @@ public class CensusAnalyserTest {
         String US_CENSUS_CSV_FILE_PATH = "./src/test/resources/US_STATE_CENSUS.csv";
         try {
             int numOfRecords = stateCensusAnalyser.loadUsData(US_CENSUS_CSV_FILE_PATH);
-            Assert.assertEquals(9, numOfRecords);
+            Assert.assertEquals(45, numOfRecords);
         } catch (CensusAnalyserException e) { }
     }
 }
