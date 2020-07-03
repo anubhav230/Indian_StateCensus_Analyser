@@ -20,7 +20,6 @@ import java.util.*;
 public class StateCensusAnalyser {
 
     Collection<Object> records = null;
-    //List<Object> censusList;
     Map<Object, Object> censusDAOMap = new HashMap<>();
 
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
