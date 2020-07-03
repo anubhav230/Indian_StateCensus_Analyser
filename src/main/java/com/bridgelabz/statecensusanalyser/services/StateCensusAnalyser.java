@@ -86,8 +86,6 @@ public class StateCensusAnalyser {
     }
 
 
-
-
     public String getStateCodeWiseSortedStateCode() throws CensusAnalyserException {
         if (censusDAOMap == null || censusDAOMap.size() == 0) {
             throw new CensusAnalyserException("No data", CensusAnalyserException.ExceptionType.NO_DATA);
@@ -139,6 +137,23 @@ public class StateCensusAnalyser {
         records = censusDAOMap.values();
         String sortedStateCensusJson = new Gson().toJson(records);
         try (Writer writer = new FileWriter("./src/test/resources/IndiaLargestStateByArea.json")) {
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(censusDAOMap, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sortedStateCensusJson;
+    }
+
+    public String getPopulatedDensityWiseSortedUsCensusData() throws CensusAnalyserException {
+        if (censusDAOMap == null || censusDAOMap.size() == 0) {
+            throw new CensusAnalyserException("No data", CensusAnalyserException.ExceptionType.NO_DATA);
+        }
+        Comparator<UsCensusData> censusComparator = Comparator.comparing(census -> census.usPopulation);
+        this.descendingSort(censusComparator, censusDAOMap);
+        records = censusDAOMap.values();
+        String sortedStateCensusJson = new Gson().toJson(records);
+        try (Writer writer = new FileWriter("./src/test/resources/UsStateCensusDataDescending.json")) {
             Gson gson = new GsonBuilder().create();
             gson.toJson(censusDAOMap, writer);
         } catch (IOException e) {

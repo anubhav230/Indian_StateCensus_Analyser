@@ -3,6 +3,7 @@ package com.bridgelabz.statecensusanalyser;
 import com.bridgelabz.statecensusanalyser.exception.CensusAnalyserException;
 import com.bridgelabz.statecensusanalyser.models.IndiaCensusCSV;
 import com.bridgelabz.statecensusanalyser.models.StateCSV;
+import com.bridgelabz.statecensusanalyser.models.UsCensusData;
 import com.bridgelabz.statecensusanalyser.services.StateCensusAnalyser;
 import com.google.gson.Gson;
 import org.junit.Assert;
@@ -197,5 +198,31 @@ public class CensusAnalyserTest {
             int numOfRecords = stateCensusAnalyser.loadUsData(US_CENSUS_CSV_FILE_PATH);
             Assert.assertEquals(45, numOfRecords);
         } catch (CensusAnalyserException e) { }
+    }
+
+    @Test
+    public void giveUsCensusData_WhenSortDescending_ShouldReturnSortedResult() {
+        try {
+            String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/US_STATE_CENSUS.csv";
+            stateCensusAnalyser.loadUsData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortCensusData = stateCensusAnalyser.getPopulatedDensityWiseSortedUsCensusData();
+            UsCensusData[] usCensusData = new Gson().fromJson(sortCensusData, UsCensusData[].class);
+            Assert.assertEquals(37253956, usCensusData[0].usPopulation);
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void giveUsCensusData_WhenSortLeastPopulated_ShouldReturnSortedResult() {
+        try {
+            String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/US_STATE_CENSUS.csv";
+            stateCensusAnalyser.loadUsData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortCensusData = stateCensusAnalyser.getPopulatedDensityWiseSortedUsCensusData();
+            UsCensusData[] usCensusData = new Gson().fromJson(sortCensusData, UsCensusData[].class);
+            Assert.assertEquals(601723, usCensusData[usCensusData.length - 1].usPopulation);
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
+        }
     }
 }
