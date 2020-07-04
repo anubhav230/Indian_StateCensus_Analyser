@@ -14,61 +14,32 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class StateCensusAnalyser {
 
     List<CensusDAO> censusDaoList;
-
     public StateCensusAnalyser() {
         this.censusDaoList = new ArrayList<>();
     }
 
-    /**
-     * @param csvFilePath
-     * @return
-     * @throws CensusAnalyserException
-     */
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IndiaCensusCSV> csvFileIterator = csvBuilder.getCSVFileIterator(reader, IndiaCensusCSV.class);
-            while (csvFileIterator.hasNext()) {
-                this.censusDaoList.add(new CensusDAO(csvFileIterator.next()));
-            }
-            return this.censusDaoList.size();
-        } catch (IOException | RuntimeException | CSVBuilderException e) {
-            throw new CensusAnalyserException(e.getMessage(),
-                    CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-        }
+        return this.loadCensusData(csvFilePath, IndiaCensusCSV.class);
     }
 
-    /**
-     * @param csvFilePath
-     * @return
-     * @throws CensusAnalyserException
-     */
     public int loadStateCode(String csvFilePath) throws CensusAnalyserException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<StateCSV> csvFileIterator = csvBuilder.getCSVFileIterator(reader, StateCSV.class);
-            while (csvFileIterator.hasNext()) {
-                this.censusDaoList.add(new CensusDAO(csvFileIterator.next()));
-            }
-            return this.censusDaoList.size();
-        } catch (IOException | RuntimeException | CSVBuilderException e) {
-            throw new CensusAnalyserException(e.getMessage(),
-                    CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-       }
+        return this.loadCensusData(csvFilePath, StateCSV.class);
     }
 
-    /**
-     * @return
-     * @throws CensusAnalyserException
-     */
     public int loadUsData(String csvFilePath) throws CensusAnalyserException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+        return this.loadCensusData(csvFilePath, UsCensusData.class);
+    }
+
+
+    private <E> int loadCensusData(String path, Class<E> censusClass) throws CensusAnalyserException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(path))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<UsCensusData> csvFileIterator = csvBuilder.getCSVFileIterator(reader, UsCensusData.class);
+            Iterator<UsCensusData> csvFileIterator = csvBuilder.getCSVFileIterator(reader, censusClass);
             while (csvFileIterator.hasNext()) {
                 this.censusDaoList.add(new CensusDAO(csvFileIterator.next()));
             }
@@ -77,6 +48,7 @@ public class StateCensusAnalyser {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
+
     }
 
     public String getStateWiseSortedCensusData() throws CensusAnalyserException {
@@ -134,8 +106,6 @@ public class StateCensusAnalyser {
         return sortedStateCensusJson;
     }
 
-
-
     public String getPopulatedDensityWiseSortedUsCensusData() throws CensusAnalyserException {
         if (censusDaoList == null || censusDaoList.size() == 0) {
             throw new CensusAnalyserException("No data", CensusAnalyserException.ExceptionType.NO_DATA);
@@ -146,7 +116,6 @@ public class StateCensusAnalyser {
         JsonWrite.writeJson("./src/test/resources/UsStateCensusDataDescending.json", censusDaoList);
         return sortedStateCensusJson;
     }
-
 
     public String getPopulatedAreaWiseSortedUsCensusData() throws CensusAnalyserException {
         if (censusDaoList == null || censusDaoList.size() == 0) {
