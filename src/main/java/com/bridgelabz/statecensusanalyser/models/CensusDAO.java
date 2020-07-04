@@ -3,17 +3,17 @@ package com.bridgelabz.statecensusanalyser.models;
 public class CensusDAO {
 
     public String usState;
-    public String waterArea;
-    public String totalArea;
+    public double waterArea;
+    public double totalArea;
     public String stateId;
     public int usPopulation;
-    public String housingUnits;
+    public int housingUnits;
     public int population;
     public int densityPerSqKm;
     public int areaInSqKm;
     public String srNo;
     public String tin;
-    public String StateName;
+    public String stateName;
     public String StateCode;
     public String state;
 
@@ -26,7 +26,7 @@ public class CensusDAO {
 
     public CensusDAO(StateCSV stateCSV) {
         StateCode = stateCSV.StateCode;
-        StateName = stateCSV.StateName;
+        stateName = stateCSV.stateName;
         tin = stateCSV.tin;
         srNo = stateCSV.srNo;
     }
