@@ -53,6 +53,7 @@ public class CensusAnalyserTest {
             stateCensusAnalyser.loadIndiaCensusData(WRONG_CSV_FILE_WRONG_DELIMITER);
         } catch (CensusAnalyserException e) {
             System.out.println(e.getMessage());
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
     }
 
@@ -230,16 +231,24 @@ public class CensusAnalyserTest {
         }
     }
 
+
+
     @Test
-    public void giveUsCensusData_WhenSortMostPopulatedArea_ShouldReturnSortedResult() {
+    public void giveUsCensusAndIndia_WhenSortMostPopulation_ShouldReturnSortedResult() {
         try {
-            String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/US_STATE_CENSUS.csv";
-            stateCensusAnalyser.loadUsData(INDIA_CENSUS_CSV_FILE_PATH);
-            String sortCensusData = stateCensusAnalyser.getPopulatedAreaWiseSortedUsCensusData();
+            String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
+            String US_CENSUS_CSV_FILE_PATH = "./src/test/resources/US_STATE_CENSUS.csv";
+            stateCensusAnalyser.loadUsData(US_CENSUS_CSV_FILE_PATH);
+            stateCensusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortCensusData = stateCensusAnalyser.getPopulatedStateSortedUsCensusAndIndiaCensusData();
+            String sortCensusData2 = stateCensusAnalyser.getPopulationWiseSortedCensusData();
             UsCensusData[] usCensusData = new Gson().fromJson(sortCensusData, UsCensusData[].class);
-            Assert.assertEquals(710231 , usCensusData[usCensusData.length-1].usPopulation);
+            IndiaCensusCSV[] indiaCensusData2 = new Gson().fromJson(sortCensusData2, IndiaCensusCSV[].class);
+            Assert.assertEquals("California" , usCensusData[usCensusData.length - 1].usState);
+            Assert.assertEquals("Uttar Pradesh" , indiaCensusData2[indiaCensusData2.length - 1].state);
         } catch (CensusAnalyserException e) {
             e.printStackTrace();
         }
     }
+
 }
