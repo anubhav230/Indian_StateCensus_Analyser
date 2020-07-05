@@ -12,7 +12,11 @@ import java.util.List;
 
 import static com.bridgelabz.statecensusanalyser.services.CensusLoader.censusDaoList;
 
-public class StateCensusAnalyser {
+public class CensusAnalyser {
+
+    public enum Country {
+        INDIA_CENSUS, STATE_CODE, US
+    }
 
     /**
      * method for loading india census data
@@ -21,30 +25,31 @@ public class StateCensusAnalyser {
      * @return
      * @throws
      */
-    public List loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
-        return new CensusLoader().loadCensusData(csvFilePath, IndiaCensusCSV.class);
+    public List loadCensusData(Country country, String...csvFilePath) throws CensusAnalyserException {
+        return new CensusLoader().loadCensusData(country, csvFilePath);
     }
 
 
-    /**
-     * method for loading india state data
-     *
-     * @param csvFilePath
-     * @return
-     * @throws CensusAnalyserException
-     */
-    public List loadStateCode(String csvFilePath) throws CensusAnalyserException {
-        return new CensusLoader().loadCensusData(csvFilePath, StateCSV.class);
-    }
-
-    /**
-     * @param csvFilePath
-     * @return
-     * @throws CensusAnalyserException
-     */
-    public List loadUsData(String csvFilePath) throws CensusAnalyserException {
-        return new CensusLoader().loadCensusData(csvFilePath, UsCensusData.class);
-    }
+//    /**
+//     *
+//     * method for loading india state data
+//     *
+//     * @param csvFilePath
+//     * @return
+//     * @throws CensusAnalyserException
+//     */
+//    public List loadStateCode(String... csvFilePath) throws CensusAnalyserException {
+//        return new CensusLoader().loadCensusData(StateCSV.class, csvFilePath);
+//    }
+//
+//    /**
+//     * @param csvFilePath
+//     * @return
+//     * @throws CensusAnalyserException
+//     */
+//    public List loadUsData(String... csvFilePath) throws CensusAnalyserException {
+//        return new CensusLoader().loadCensusData(UsCensusData.class, csvFilePath);
+//    }
 
     /**
      * method for shorting india census data

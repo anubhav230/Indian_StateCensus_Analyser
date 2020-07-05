@@ -18,9 +18,20 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CensusLoader {
+
+    public <E>List loadCensusData(CensusAnalyser.Country country, String...csvFilePath) throws CensusAnalyserException {
+        if (country.equals(CensusAnalyser.Country.INDIA_CENSUS))
+            return this.loadCensusData(IndiaCensusCSV.class, csvFilePath);
+        else if (country.equals(CensusAnalyser.Country.STATE_CODE))
+            return this.loadCensusData(StateCSV.class, csvFilePath);
+        else if(country.equals(CensusAnalyser.Country.US))
+             return this.loadCensusData(UsCensusData.class, csvFilePath);
+        else throw new CensusAnalyserException("Invalid Country", CensusAnalyserException.ExceptionType.INVALID_COUNTRY);
+    }
+
     public static List<CensusDAO> censusDaoList = new ArrayList<>();
-    public  <E> List loadCensusData(String csvFilePath, Class<E> classType) throws CensusAnalyserException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+    public  <E> List loadCensusData(Class<E> classType, String... csvFilePath) throws CensusAnalyserException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath[0]))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<E> csvFileIterator = csvBuilder.getCSVFileIterator(reader, classType);
             switch (classType.getSimpleName()) {
@@ -46,4 +57,6 @@ public class CensusLoader {
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
+
+
 }
