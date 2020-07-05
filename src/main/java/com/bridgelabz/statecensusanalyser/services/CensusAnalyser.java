@@ -2,9 +2,6 @@ package com.bridgelabz.statecensusanalyser.services;
 
 import com.bridgelabz.statecensusanalyser.exception.CensusAnalyserException;
 import com.bridgelabz.statecensusanalyser.models.CensusDAO;
-import com.bridgelabz.statecensusanalyser.models.IndiaCensusCSV;
-import com.bridgelabz.statecensusanalyser.models.StateCSV;
-import com.bridgelabz.statecensusanalyser.models.UsCensusData;
 import com.google.gson.Gson;
 
 import java.util.Comparator;
@@ -25,31 +22,10 @@ public class CensusAnalyser {
      * @return
      * @throws
      */
-    public List loadCensusData(Country country, String...csvFilePath) throws CensusAnalyserException {
+    public List loadCensusData(Country country, String... csvFilePath) throws CensusAnalyserException {
         return new CensusLoader().loadCensusData(country, csvFilePath);
     }
 
-
-//    /**
-//     *
-//     * method for loading india state data
-//     *
-//     * @param csvFilePath
-//     * @return
-//     * @throws CensusAnalyserException
-//     */
-//    public List loadStateCode(String... csvFilePath) throws CensusAnalyserException {
-//        return new CensusLoader().loadCensusData(StateCSV.class, csvFilePath);
-//    }
-//
-//    /**
-//     * @param csvFilePath
-//     * @return
-//     * @throws CensusAnalyserException
-//     */
-//    public List loadUsData(String... csvFilePath) throws CensusAnalyserException {
-//        return new CensusLoader().loadCensusData(UsCensusData.class, csvFilePath);
-//    }
 
     /**
      * method for shorting india census data
