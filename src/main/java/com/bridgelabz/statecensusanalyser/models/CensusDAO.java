@@ -39,7 +39,4 @@ public class CensusDAO {
         waterArea = usCensusData.waterArea;
         usState = usCensusData.usState;
     }
-
-
-
 }

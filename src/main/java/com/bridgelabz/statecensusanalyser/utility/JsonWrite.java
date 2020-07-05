@@ -1,4 +1,4 @@
-package com.bridgelabz.statecensusanalyser.services;
+package com.bridgelabz.statecensusanalyser.utility;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
