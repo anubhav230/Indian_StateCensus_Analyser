@@ -21,16 +21,4 @@ public class UsCensusData {
 
     @CsvBindByName(column = "Water area", required = true)
     public double waterArea;
-
-    @Override
-    public String toString() {
-        return "UsCensusData{" +
-                "stateId='" + stateId + '\'' +
-                ", state='" + usState + '\'' +
-                ", population=" + usPopulation +
-                ", housingUnits='" + housingUnits + '\'' +
-                ", TotalArea='" + totalArea + '\'' +
-                ", waterArea='" + waterArea + '\'' +
-                '}';
-    }
 }
