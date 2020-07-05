@@ -31,7 +31,7 @@ public class CensusDAO {
         srNo = stateCSV.srNo;
     }
 
-    public CensusDAO(UsCensusData usCensusData) {
+    public <E> CensusDAO(UsCensusData usCensusData) {
         housingUnits = usCensusData.housingUnits;
         usPopulation = usCensusData.usPopulation;
         stateId = usCensusData.stateId;
@@ -39,4 +39,7 @@ public class CensusDAO {
         waterArea = usCensusData.waterArea;
         usState = usCensusData.usState;
     }
+
+
+
 }
