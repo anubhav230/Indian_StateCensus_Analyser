@@ -6,8 +6,7 @@ import com.bridgelabz.statecensusanalyser.utility.JsonWrite;
 import com.google.gson.Gson;
 import java.util.Comparator;
 import java.util.List;
-
-import static com.bridgelabz.statecensusanalyser.services.CensusLoader.censusDaoList;
+import static com.bridgelabz.statecensusanalyser.services.CensusAdapter.censusDaoList;
 import static com.bridgelabz.statecensusanalyser.utility.CheckNull.checkNull;
 
 public class CensusAnalyser {
@@ -17,19 +16,19 @@ public class CensusAnalyser {
     }
 
     /**
-     * method for loading india census data
      *
-     * @param csvFilePath
+     * @param country
+     *
      * @return
-     * @throws
+     * @throws CensusAnalyserException
      */
-    public List loadCensusData(Country country, String... csvFilePath) throws CensusAnalyserException {
-        return new CensusLoader().loadCensusData(country, csvFilePath);
+    public List<CensusDAO> loadCensusData(Country country, String... csvFilePath) throws CensusAnalyserException {
+        return new CensusAdapterFactory().getCensusData(country, csvFilePath);
     }
 
     /**
-     * method for shorting india census data
      *
+     * @param type
      * @return
      * @throws CensusAnalyserException
      */
@@ -44,7 +43,7 @@ public class CensusAnalyser {
                 sortedStateCensusJson = new Gson().toJson(censusDaoList);
                 return sortedStateCensusJson;
             case "state":
-                 new CensusLoader().censusDaoList.sort(((Comparator<CensusDAO>)
+                 new IndiaCensusAdapter().censusDaoList.sort(((Comparator<CensusDAO>)
                         (census1, census2) -> census2.state.compareTo(census1.state)).reversed());
                 sortedStateCensusJson = new Gson().toJson(censusDaoList);
                 return sortedStateCensusJson;
@@ -72,7 +71,6 @@ public class CensusAnalyser {
                 sortedStateCensusJson = new Gson().toJson(censusDaoList);
                 JsonWrite.writeJson("./src/test/resources/IndiaLargestStateByArea.json", censusDaoList);
                 return sortedStateCensusJson;
-
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }

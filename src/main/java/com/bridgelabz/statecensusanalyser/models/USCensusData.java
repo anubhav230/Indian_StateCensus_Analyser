@@ -2,7 +2,7 @@ package com.bridgelabz.statecensusanalyser.models;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class UsCensusData {
+public class USCensusData {
 
     @CsvBindByName(column = "State Id", required = true)
     public String stateId;
