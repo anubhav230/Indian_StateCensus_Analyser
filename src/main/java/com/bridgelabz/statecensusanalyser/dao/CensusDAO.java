@@ -1,4 +1,9 @@
-package com.bridgelabz.statecensusanalyser.models;
+package com.bridgelabz.statecensusanalyser.dao;
+
+import com.bridgelabz.statecensusanalyser.models.IndiaCensusCSV;
+import com.bridgelabz.statecensusanalyser.models.StateCSV;
+import com.bridgelabz.statecensusanalyser.models.USCensusData;
+import com.bridgelabz.statecensusanalyser.services.CensusAnalyser;
 
 public class CensusDAO {
 
@@ -11,8 +16,7 @@ public class CensusDAO {
     public int population;
     public int densityPerSqKm;
     public int areaInSqKm;
-    public String stateName;
-    public String StateCode;
+    public String stateCode;
     public String state;
 
     public CensusDAO(IndiaCensusCSV indiaCensusCSV) {
@@ -23,8 +27,7 @@ public class CensusDAO {
     }
 
     public CensusDAO(StateCSV stateCSV) {
-        StateCode = stateCSV.StateCode;
-        stateName = stateCSV.stateName;
+        stateCode = stateCSV.stateCode;
     }
 
     public <E> CensusDAO(USCensusData usCensusData) {
@@ -34,5 +37,12 @@ public class CensusDAO {
         totalArea = usCensusData.totalArea;
         waterArea = usCensusData.waterArea;
         usState = usCensusData.usState;
+    }
+    public Object getCensusDTOS(CensusAnalyser.Country country) {
+        if (country.equals(CensusAnalyser.Country.US))
+            return new USCensusData(housingUnits, usPopulation, stateId, totalArea, waterArea, usState);
+        else if (country.equals(CensusAnalyser.Country.INDIA_CENSUS))
+            return new IndiaCensusCSV(state, areaInSqKm, (int) densityPerSqKm,(int) population);
+        return new StateCSV(stateCode);
     }
 }

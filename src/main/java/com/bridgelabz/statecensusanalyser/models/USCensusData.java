@@ -4,6 +4,9 @@ import com.opencsv.bean.CsvBindByName;
 
 public class USCensusData {
 
+    public USCensusData() {
+    }
+
     @CsvBindByName(column = "State Id", required = true)
     public String stateId;
 
@@ -21,4 +24,13 @@ public class USCensusData {
 
     @CsvBindByName(column = "Water area", required = true)
     public double waterArea;
+
+    public USCensusData(int housingUnits,int usPopulation, String stateId, double totalArea, double waterArea, String usState) {
+        this.housingUnits = housingUnits;
+        this.stateId = stateId;
+        this.totalArea = totalArea;
+        this.waterArea = waterArea;
+        this.usState = usState;
+        this.usPopulation= usPopulation;
+    }
 }

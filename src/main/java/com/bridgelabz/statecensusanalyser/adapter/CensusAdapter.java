@@ -1,7 +1,7 @@
-package com.bridgelabz.statecensusanalyser.services;
+package com.bridgelabz.statecensusanalyser.adapter;
 
 import com.bridgelabz.statecensusanalyser.exception.CensusAnalyserException;
-import com.bridgelabz.statecensusanalyser.models.CensusDAO;
+import com.bridgelabz.statecensusanalyser.dao.CensusDAO;
 import com.bridgelabz.statecensusanalyser.models.IndiaCensusCSV;
 import com.bridgelabz.statecensusanalyser.models.StateCSV;
 import com.bridgelabz.statecensusanalyser.models.USCensusData;
@@ -19,10 +19,7 @@ import java.util.List;
 
 public  abstract class CensusAdapter {
 
-
-
     public abstract List<CensusDAO> loadCensusData(String... csvFilePath) throws CensusAnalyserException;
-
 
     public static List<CensusDAO> censusDaoList = new ArrayList<>();
     public <E> List<CensusDAO> loadCensusData(Class<E> classType, String csvFilePath) throws CensusAnalyserException {

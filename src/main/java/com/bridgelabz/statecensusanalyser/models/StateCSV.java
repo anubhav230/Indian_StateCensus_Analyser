@@ -3,9 +3,13 @@ package com.bridgelabz.statecensusanalyser.models;
 import com.opencsv.bean.CsvBindByName;
 
 public class StateCSV {
-    @CsvBindByName(column = "State Name", required = true)
-    public String stateName;
 
+    public StateCSV() {
+    }
     @CsvBindByName(column = "StateCode", required = true)
-    public String StateCode;
+    public String stateCode;
+
+    public StateCSV(String stateCode) {
+        this.stateCode = stateCode;
+    }
 }

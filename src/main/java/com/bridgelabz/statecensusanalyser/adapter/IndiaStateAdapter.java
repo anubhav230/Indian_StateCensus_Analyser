@@ -1,7 +1,7 @@
-package com.bridgelabz.statecensusanalyser.services;
+package com.bridgelabz.statecensusanalyser.adapter;
 
+import com.bridgelabz.statecensusanalyser.dao.CensusDAO;
 import com.bridgelabz.statecensusanalyser.exception.CensusAnalyserException;
-import com.bridgelabz.statecensusanalyser.models.CensusDAO;
 import com.bridgelabz.statecensusanalyser.models.StateCSV;
 
 import java.util.List;

@@ -2,7 +2,7 @@ package com.bridgelabz.statecensusanalyser.utility;
 
 import com.bridgelabz.statecensusanalyser.exception.CensusAnalyserException;
 
-import static com.bridgelabz.statecensusanalyser.services.IndiaCensusAdapter.censusDaoList;
+import static com.bridgelabz.statecensusanalyser.adapter.IndiaCensusAdapter.censusDaoList;
 
 public class CheckNull {
     public static void checkNull() throws CensusAnalyserException {
