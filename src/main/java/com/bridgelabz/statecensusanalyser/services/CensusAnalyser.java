@@ -38,6 +38,7 @@ public class CensusAnalyser {
     ArrayList censusDTO;
 
     /**
+     * method for checking type and sorting
      * @param type
      * @return
      * @throws CensusAnalyserException
@@ -86,6 +87,10 @@ public class CensusAnalyser {
         }
     }
 
+    /**
+     * sort method for sorting list
+     * @return
+     */
     public List sort() {
         censusDTO = censusDaoList.stream()
                 .sorted(censusComparator)
