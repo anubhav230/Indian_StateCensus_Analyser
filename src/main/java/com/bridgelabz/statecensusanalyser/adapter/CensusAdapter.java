@@ -21,26 +21,23 @@ public  abstract class CensusAdapter {
 
     public abstract List<CensusDAO> loadCensusData(String... csvFilePath) throws CensusAnalyserException;
 
-    public static List<CensusDAO> censusDaoList = new ArrayList<>();
     public <E> List<CensusDAO> loadCensusData(Class<E> classType, String csvFilePath) throws CensusAnalyserException {
+        List<CensusDAO> censusDaoList = new ArrayList<>();
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<E> csvFileIterator = csvBuilder.getCSVFileIterator(reader, classType);
             switch (classType.getSimpleName()) {
                 case "IndiaCensusCSV":
-                    censusDaoList.clear();
                     while (csvFileIterator.hasNext())
-                        this.censusDaoList.add(new CensusDAO((IndiaCensusCSV) csvFileIterator.next()));
+                        censusDaoList.add(new CensusDAO((IndiaCensusCSV) csvFileIterator.next()));
                     break;
                 case "USCensusData":
-                    censusDaoList.clear();
                     while (csvFileIterator.hasNext())
-                        this.censusDaoList.add(new CensusDAO((USCensusData) csvFileIterator.next()));
+                        censusDaoList.add(new CensusDAO((USCensusData) csvFileIterator.next()));
                     break;
                 case "StateCSV":
-                    censusDaoList.clear();
                     while (csvFileIterator.hasNext())
-                        this.censusDaoList.add(new CensusDAO((StateCSV) csvFileIterator.next()));
+                        censusDaoList.add(new CensusDAO((StateCSV) csvFileIterator.next()));
                     break;
             }
             return censusDaoList;

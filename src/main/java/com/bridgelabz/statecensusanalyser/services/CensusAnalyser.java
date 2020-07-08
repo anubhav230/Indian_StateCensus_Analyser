@@ -4,17 +4,16 @@ import com.bridgelabz.statecensusanalyser.adapter.CensusAdapterFactory;
 import com.bridgelabz.statecensusanalyser.dao.CensusDAO;
 import com.bridgelabz.statecensusanalyser.exception.CensusAnalyserException;
 import com.bridgelabz.statecensusanalyser.utility.JsonWrite;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.bridgelabz.statecensusanalyser.adapter.CensusAdapter.censusDaoList;
-import static com.bridgelabz.statecensusanalyser.utility.CheckNull.checkNull;
-
 public class CensusAnalyser {
+    Comparator<CensusDAO> censusComparator;
+    ArrayList censusDTO;
+    List<CensusDAO> censusDaoList = null;
 
     public enum Country {
         INDIA_CENSUS, STATE_CODE, US
@@ -31,14 +30,15 @@ public class CensusAnalyser {
      * @throws CensusAnalyserException
      */
     public List<CensusDAO> loadCensusData(String... csvFilePath) throws CensusAnalyserException {
-        return new CensusAdapterFactory().getCensusData(country, csvFilePath);
+        this.censusDaoList = new CensusAdapterFactory().getCensusData(country, csvFilePath);
+        return censusDaoList;
     }
 
-    Comparator<CensusDAO> censusComparator;
-    ArrayList censusDTO;
+
 
     /**
      * method for checking type and sorting
+     *
      * @param type
      * @return
      * @throws CensusAnalyserException
@@ -46,49 +46,50 @@ public class CensusAnalyser {
     public String sortCensusData(String type) throws CensusAnalyserException {
         checkNull();
         String sortedStateCensusJson;
-        checkNull();
         switch (type) {
             case "usPopulation":
                 censusComparator = Comparator.comparing(census -> census.usPopulation);
                 sort();
-                sortedStateCensusJson = new Gson().toJson(censusDTO);
-                JsonWrite.writeJson("./src/test/resources/usPopulationJson.json", censusDTO);
+                sortedStateCensusJson = JsonWrite.writeJson
+                        ("./src/test/resources/usPopulationJson.json", censusDTO);
                 return sortedStateCensusJson;
             case "state":
                 censusComparator = Comparator.comparing(census -> census.state);
                 sort();
-                sortedStateCensusJson = new Gson().toJson(censusDTO);
+                sortedStateCensusJson = JsonWrite.writeJson
+                        ("./src/test/resources/usPopulationJson.json", censusDTO);
                 return sortedStateCensusJson;
             case "stateCode":
                 censusComparator = Comparator.comparing(census -> census.stateCode);
                 sort();
-                sortedStateCensusJson = new Gson().toJson(censusDTO);
-                JsonWrite.writeJson("./src/test/resources/IndiaStateCodeJson.json", censusDTO);
+                sortedStateCensusJson = JsonWrite.writeJson
+                        ("./src/test/resources/IndiaStateCodeJson.json", censusDTO);
                 return sortedStateCensusJson;
             case "population":
                 censusComparator = Comparator.comparing(census -> census.population);
                 sort();
-                sortedStateCensusJson = new Gson().toJson(censusDTO);
+                sortedStateCensusJson = JsonWrite.writeJson
+                        ("./src/test/resources/IndiaStateCodeJson.json", censusDTO);
                 return sortedStateCensusJson;
             case "densityPerSqKm":
                 censusComparator = Comparator.comparing(census -> census.densityPerSqKm);
                 sort();
-                sortedStateCensusJson = new Gson().toJson(censusDTO);
-                JsonWrite.writeJson("./src/test/resources/densityPerSqKmJson.json", censusDTO);
+                sortedStateCensusJson = JsonWrite.writeJson
+                        ("./src/test/resources/densityPerSqKmJson.json", censusDTO);
                 return sortedStateCensusJson;
             case "areaInSqKm":
                 censusComparator = Comparator.comparing(census -> census.areaInSqKm);
                 sort();
-                sortedStateCensusJson = new Gson().toJson(censusDTO);
-                JsonWrite.writeJson("./src/test/resources/areaInSqKmJson.json", censusDTO);
+                sortedStateCensusJson = JsonWrite.writeJson
+                        ("./src/test/resources/areaInSqKmJson.json", censusDTO);
                 return sortedStateCensusJson;
-            default:
-                throw new IllegalStateException("Unexpected value: " + type);
         }
+        throw new IllegalStateException("Unexpected value: " + type);
     }
 
     /**
      * sort method for sorting list
+     *
      * @return
      */
     public List sort() {
@@ -98,5 +99,13 @@ public class CensusAnalyser {
                 .collect(Collectors.toCollection(ArrayList::new));
         return censusDTO;
     }
-}
 
+    /**
+     * method for checking null exception
+     * @throws CensusAnalyserException
+     */
+    public void checkNull() throws CensusAnalyserException {
+        if (censusDaoList == null || censusDaoList.size() == 0)
+            throw new CensusAnalyserException("No data", CensusAnalyserException.ExceptionType.NO_DATA);
+    }
+}

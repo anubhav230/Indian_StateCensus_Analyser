@@ -9,12 +9,14 @@ import java.io.Writer;
 import java.util.List;
 
 public class JsonWrite {
-    public static void writeJson(String filePath , List a) {
+    public static String writeJson(String filePath , List a) {
+        String sortedStateCensusJson = new Gson().toJson(a);
         try (Writer writer = new FileWriter(filePath)) {
             Gson gson = new GsonBuilder().create();
             gson.toJson(a, writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return sortedStateCensusJson;
     }
 }
